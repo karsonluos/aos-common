@@ -13,8 +13,9 @@ object KsArgs {
     {
         application.registerActivityLifecycleCallbacks(object : KsActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                val bundle = savedInstanceState ?: activity.intent.extras ?: return
-                activity.argRegistry().inject(bundle)
+                val bundle = savedInstanceState ?: activity.intent.extras
+                bundle?.let { activity.argRegistry().inject(it) }
+
                 if (activity is FragmentActivity){
                     activity.supportFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
                         override fun onFragmentCreated(
