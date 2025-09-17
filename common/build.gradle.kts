@@ -59,10 +59,6 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 from(components["release"])
                 
-                groupId = "cn.karsonluos.aos"
-                artifactId = "common"
-                version = "0.1.1"
-                
                 pom {
                     name.set("AOS Common")
                     description.set("Android common library")
@@ -81,12 +77,6 @@ afterEvaluate {
                             name.set("Karson Luo")
                             email.set("karsonluos@gmail.com")
                         }
-                    }
-                    
-                    scm {
-                        connection.set("scm:git:git://github.com/karsonluos/aos-common.git")
-                        developerConnection.set("scm:git:ssh://github.com:karsonluos/aos-common.git")
-                        url.set("https://github.com/karsonluos/aos-common/tree/main")
                     }
                 }
             }
