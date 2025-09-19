@@ -13,7 +13,7 @@ open class KsBaseVbFragment<T : ViewBinding> : KsBaseFragment() {
     protected lateinit var mViewBinding : T
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val vbClazz = KsReflectUtils.findGenericParameter<T>(javaClass, KsBaseVbDialogFragment::class.java, 0)
+        val vbClazz = KsReflectUtils.findGenericParameter<T>(javaClass, KsBaseVbFragment::class.java, 0)
         val vb = vbClazz.viewBinding(layoutInflater)
         this.mViewBinding = vb
         return vb.root
