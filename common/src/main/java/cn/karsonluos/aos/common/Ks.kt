@@ -1,6 +1,7 @@
 package cn.karsonluos.aos.common
 
 import android.app.Application
+import android.util.TypedValue
 import androidx.annotation.StringRes
 import cn.karsonluos.aos.common.core.KsArgs
 import cn.karsonluos.aos.common.exceptions.KsMessageException
@@ -10,6 +11,10 @@ import cn.karsonluos.aos.common.utils.KsToastUtil
 lateinit var globalContext : Application
 fun resToString(@StringRes id: Int, vararg args : Any) : String{
     return globalContext.getString(id, *args)
+}
+
+fun Number.dpToPx() : Int{
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), globalContext.resources.displayMetrics).toInt()
 }
 
 object Ks {
