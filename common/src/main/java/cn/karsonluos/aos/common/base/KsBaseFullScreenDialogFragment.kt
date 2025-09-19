@@ -10,7 +10,7 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.DialogFragment
 import cn.karsonluos.aos.common.R
 
-internal open class KsBaseFullScreenDialogFragment : DialogFragment() {
+open class KsBaseFullScreenDialogFragment : DialogFragment() {
     private lateinit var mDialogFragmentStyleConfig : KsDialogFragmentStyleConfig
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
