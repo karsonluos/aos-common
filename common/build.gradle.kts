@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    `maven-publish`
+    id("maven-publish")
 }
 
 android {
@@ -56,30 +56,18 @@ dependencies {
 afterEvaluate {
     publishing {
         publications {
-            create<MavenPublication>("release") {
-                from(components["release"])
-                
-                pom {
-                    name.set("AOS Common")
-                    description.set("Android common library")
-                    url.set("https://github.com/karsonluos/aos-common")
-                    
-                    licenses {
-                        license {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                        }
-                    }
-                    
-                    developers {
-                        developer {
-                            id.set("karsonluos")
-                            name.set("Karson Luo")
-                            email.set("karsonluos@gmail.com")
-                        }
-                    }
+            register<MavenPublication>("release") {
+                groupId = "cn.karsonluos"
+                artifactId = "aos-common"
+                version = "0.0.5"
+
+                afterEvaluate {
+                    from(components["release"])
                 }
             }
+        }
+        repositories {
+            mavenLocal()
         }
     }
 }

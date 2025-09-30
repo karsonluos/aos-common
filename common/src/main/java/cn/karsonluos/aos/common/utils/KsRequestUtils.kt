@@ -9,12 +9,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import java.util.UUID
 import kotlin.coroutines.resume
 import kotlin.let
 
@@ -45,6 +48,10 @@ object KsRequestUtils {
 
     suspend fun startActivityForResult(activity: FragmentActivity, intent: Intent) : ActivityResult{
         return requireProxyFragment(activity).startActivityForResult(intent)
+    }
+
+    suspend fun <O> doTask(activity: FragmentActivity, task : (fragment : Fragment, callback : (result : Result<O>)-> Unit)-> Unit) : O{
+        return UniversalOnceProxyFragment().execute(activity.supportFragmentManager, task)
     }
 
     private fun requireProxyFragment(activity: FragmentActivity): RequestProxyFragment {
@@ -188,5 +195,40 @@ internal class PickMultiVisualMediaProxyFragment : Fragment() {
 
     suspend fun pickMultiVisualMedia(request : PickVisualMediaRequest) : List<@JvmSuppressWildcards Uri> {
         return mPickMultiVisualMediaLauncher.request(request)
+    }
+}
+
+
+internal class UniversalOnceProxyFragment : DialogFragment(){
+    private var mPendingTask : ((Fragment)-> Unit)? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val task = mPendingTask
+        if (task == null){
+            dismiss()
+            return
+        }else{
+            task.invoke(this)
+        }
+    }
+
+    suspend fun <O> execute(fragmentManager: FragmentManager, task : (fragment : Fragment, callback : (result : Result<O>)-> Unit)-> Unit) : O{
+        return suspendCancellableCoroutine { cont->
+            cont.invokeOnCancellation {
+                dismiss()
+            }
+
+            mPendingTask = {fragment->
+                task.invoke(fragment){result->
+                    if (cont.isActive){
+                        cont.resumeWith(result)
+                        dismiss()
+                    }
+                }
+            }
+
+            show(fragmentManager, UUID.randomUUID().toString())
+        }
     }
 }
