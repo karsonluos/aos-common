@@ -1,6 +1,7 @@
 package cn.karsonluos.aos.common.components
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +27,8 @@ open class KsLoadingDialog : KsBaseFullScreenDialogFragment() {
 
     override fun provideStyleConfig(): KsDialogFragmentStyleConfig {
         return KsDialogFragmentStyleConfig(
-            height = ViewGroup.LayoutParams.MATCH_PARENT
+            height = ViewGroup.LayoutParams.MATCH_PARENT,
+            gravity= Gravity.CENTER
         )
     }
 
