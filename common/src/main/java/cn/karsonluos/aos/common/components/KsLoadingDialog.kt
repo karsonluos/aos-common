@@ -22,6 +22,12 @@ open class KsLoadingDialog : KsBaseFullScreenDialogFragment() {
         return R.layout.ks_dialog_loading
     }
 
+    override fun provideStyleConfig(): KsDialogFragmentStyleConfig {
+        return KsDialogFragmentStyleConfig(
+            height = ViewGroup.LayoutParams.MATCH_PARENT
+        )
+    }
+
     override fun show(manager: FragmentManager, tag: String?) {
         this.showNow(manager, tag)
     }
