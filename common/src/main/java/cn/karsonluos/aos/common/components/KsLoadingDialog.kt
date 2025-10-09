@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import cn.karsonluos.aos.common.R
 import cn.karsonluos.aos.common.base.KsBaseFullScreenDialogFragment
+import cn.karsonluos.aos.common.base.KsDialogFragmentStyleConfig
+
 
 open class KsLoadingDialog : KsBaseFullScreenDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
