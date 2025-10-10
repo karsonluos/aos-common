@@ -2,15 +2,14 @@ package cn.karsonluos.aos.common.base
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
-import android.view.ViewGroup
+import android.view.View
 import android.view.WindowManager
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.WindowCompat
-import androidx.fragment.app.DialogFragment
-import cn.karsonluos.aos.common.R
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-open class KsBaseFullScreenDialogFragment : DialogFragment() {
+open class KsBaseFullScreenBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private lateinit var mDialogFragmentStyleConfig : KsDialogFragmentStyleConfig
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +19,10 @@ open class KsBaseFullScreenDialogFragment : DialogFragment() {
 
     protected open fun provideStyleConfig() : KsDialogFragmentStyleConfig {
         return KsDialogFragmentStyleConfig()
+    }
+
+    protected open fun fixedHeight() : Int?{
+        return null
     }
 
     override fun onStart() {
@@ -41,6 +44,17 @@ open class KsBaseFullScreenDialogFragment : DialogFragment() {
         window.setGravity(mDialogFragmentStyleConfig.gravity)
         window.setWindowAnimations(mDialogFragmentStyleConfig.animation)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val fixedHeight = fixedHeight()
+        if (fixedHeight != null){
+            val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.let { sheet ->
+                sheet.setBackgroundColor(Color.TRANSPARENT)
+                val behavior = BottomSheetBehavior.from(sheet)
+                sheet.layoutParams.height = fixedHeight
+                behavior.peekHeight = sheet.layoutParams.height
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
     }
 }
-
