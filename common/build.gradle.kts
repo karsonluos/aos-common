@@ -57,7 +57,7 @@ afterEvaluate {
     publishing {
         publications {
             register<MavenPublication>("release") {
-                groupId = "cn.karsonluos"
+                groupId = "com.github.karsonluos"
                 artifactId = "aos-common"
                 version = "0.0.12"
 
