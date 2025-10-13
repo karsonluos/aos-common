@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Ks_DialogFragmentFullScreen" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <!-- 不要浮动 -->
+        <item name="android:windowIsFloating">false</item>
+        <!-- 不隐藏状态栏/导航栏 -->
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowNoTitle">true</item>
+<!--        <item name="android:backgroundDimEnabled">false</item>-->
+
+        <!-- 透明状态栏和导航栏 -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!--对话框从下进入/推出的动画-->
+    <style name="Ks_BottomDialogSlideAnimation">
+        <item name="android:windowEnterAnimation">@anim/ks_slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/ks_slide_out_bottom</item>
+    </style>
+
+    <!--对话框从中间缩放和渐入/渐出的动画-->
+    <style name="Ks_CenterDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/ks_popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/ks_popup_exit</item>
+    </style>
+
+    <!--对话框渐入/渐出的动画-->
+    <style name="Ks_DialogFadeAnimation">
+        <item name="android:windowEnterAnimation">@anim/ks_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/ks_fade_out</item>
+    </style>
+</resources>
