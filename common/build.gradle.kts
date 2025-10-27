@@ -59,7 +59,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.karsonluos"
                 artifactId = "aos-common"
-                version = "0.0.12"
+                version = "v0.0.13"
 
                 afterEvaluate {
                     from(components["release"])

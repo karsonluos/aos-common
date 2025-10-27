@@ -35,7 +35,7 @@ open class KsBaseFullScreenDialogFragment : DialogFragment() {
             mDialogFragmentStyleConfig.height
         )
         window.setGravity(mDialogFragmentStyleConfig.gravity)
-        window.setWindowAnimations(mDialogFragmentStyleConfig.animation)
+        window.setWindowAnimations(mDialogFragmentStyleConfig.fixedAnimation())
         WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 }

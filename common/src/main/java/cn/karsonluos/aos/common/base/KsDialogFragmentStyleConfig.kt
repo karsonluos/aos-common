@@ -14,11 +14,15 @@ data class KsDialogFragmentStyleConfig(
     var width: Int = ViewGroup.LayoutParams.MATCH_PARENT,
     var height: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     var gravity : Int = Gravity.BOTTOM,
-    var animation : Int = if (gravity and Gravity.BOTTOM == Gravity.BOTTOM){
-        R.style.Ks_BottomDialogSlideAnimation
-    }else if (gravity and Gravity.CENTER_VERTICAL == Gravity.CENTER_VERTICAL && height != ViewGroup.LayoutParams.MATCH_PARENT){
-        R.style.Ks_CenterDialogAnimation
-    }else{
-        R.style.Ks_DialogFadeAnimation
+    var animation : Int? = null
+){
+    fun fixedAnimation() : Int{
+        return animation ?: if (gravity and Gravity.BOTTOM == Gravity.BOTTOM){
+            R.style.Ks_BottomDialogSlideAnimation
+        }else if (gravity and Gravity.CENTER_VERTICAL == Gravity.CENTER_VERTICAL && height != ViewGroup.LayoutParams.MATCH_PARENT){
+            R.style.Ks_CenterDialogAnimation
+        }else{
+            R.style.Ks_DialogFadeAnimation
+        }
     }
-)
+}
