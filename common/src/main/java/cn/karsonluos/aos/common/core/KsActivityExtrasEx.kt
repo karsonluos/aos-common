@@ -42,10 +42,10 @@ inline fun <reified T : Parcelable> Activity.parcelableArg(key : String, default
         bundle.getParcelable(key)
     }
 }, { bundle, value -> bundle.putParcelable(key, value) })
-inline fun <reified T : Serializable> Activity.serializableArg(key : String, defaultValue: Serializable? = null) = KsArgVar(defaultValue, argRegistry(), { bundle ->
+inline fun <reified T : Serializable> Activity.serializableArg(key : String, defaultValue: T? = null) = KsArgVar(defaultValue, argRegistry(), { bundle ->
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        bundle.getSerializable(key, T::class.java)
+        bundle.getSerializable(key, T::class.java) as T
     } else {
-        bundle.getSerializable(key)
+        bundle.getSerializable(key) as T
     }
 }, { bundle, value -> bundle.putSerializable(key, value) })

@@ -42,7 +42,7 @@ inline fun <reified T : Parcelable> Fragment.parcelableArg(key : String, default
         bundle.getParcelable(key)
     }
 }, { bundle, value -> bundle.putParcelable(key, value) })
-inline fun <reified T : Serializable> Fragment.serializableArg(key : String, defaultValue: Serializable? = null) = KsArgVar(defaultValue, argRegistry(), { bundle ->
+inline fun <reified T : Serializable> Fragment.serializableArg(key : String, defaultValue: T? = null) = KsArgVar(defaultValue, argRegistry(), { bundle ->
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         bundle.getSerializable(key, T::class.java)
     } else {
