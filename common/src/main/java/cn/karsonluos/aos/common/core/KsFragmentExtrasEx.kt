@@ -25,7 +25,7 @@ inline fun <reified T : Parcelable> Fragment.parcelableArrayArg(key : String, de
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         bundle.getParcelableArray(key, T::class.java)
     } else {
-        bundle.getParcelableArray(key)
+        bundle.getParcelableArray(key) as Array<T>?
     }
 }, { bundle, value -> bundle.putParcelableArray(key, value) })
 inline fun <reified T : Parcelable> Fragment.parcelableArrayListArg(key : String, defaultValue: ArrayList<T>? = null) = KsArgVar(defaultValue, argRegistry(), { bundle ->
@@ -46,6 +46,6 @@ inline fun <reified T : Serializable> Fragment.serializableArg(key : String, def
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         bundle.getSerializable(key, T::class.java)
     } else {
-        bundle.getSerializable(key)
+        bundle.getSerializable(key) as T?
     }
 }, { bundle, value -> bundle.putSerializable(key, value) })
