@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ks_unknown_error">出错啦</string>
-    <string name="ks_loading">正在加载</string>
+    <string name="ks_unknown_error">An error has occurred</string>
+    <string name="ks_loading">Loading</string>
+    <string name="ks_not_found_email_client">No email application found</string>
+    <string name="ks_not_found_web_client">No browser application found</string>
 </resources>

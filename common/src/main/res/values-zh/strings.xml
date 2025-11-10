@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ks_unknown_error">出錯啦</string>
+    <string name="ks_loading">正在載入</string>
+    <string name="ks_not_found_email_client">沒有找到可用的郵件應用程式</string>
+    <string name="ks_not_found_web_client">找不到可用的瀏覽器應用程式</string>
+</resources>

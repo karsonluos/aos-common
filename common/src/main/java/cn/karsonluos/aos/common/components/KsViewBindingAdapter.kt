@@ -1,5 +1,6 @@
 package cn.karsonluos.aos.common.components
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +16,11 @@ abstract class KsViewBindingAdapter<T, VB: ViewBinding>(val items: MutableList<T
         return KsViewBindingViewHolder(vb)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun replaceAll(newData : List<T>){
-        val oldCount = this.items.size
         this.items.clear()
-        this.notifyItemRangeRemoved(0, oldCount)
         this.items.addAll(newData)
-        this.notifyItemRangeInserted(0, newData.size)
+        this.notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
