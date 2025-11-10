@@ -5,20 +5,37 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.MutableLiveData
 import cn.karsonluos.aos.common.R
 import cn.karsonluos.aos.common.base.KsBaseFullScreenDialogFragment
 import cn.karsonluos.aos.common.base.KsDialogFragmentStyleConfig
 
 
 open class KsLoadingDialog : KsBaseFullScreenDialogFragment() {
+    private val messageLiveData = MutableLiveData<String?>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (savedInstanceState != null) {
             //不允许重建
             dismissAllowingStateLoss()
         }
         return inflater.inflate(provideContentLayout(), container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        messageLiveData.observe(viewLifecycleOwner){
+            onMessageChanged(view, it)
+        }
+    }
+
+    protected open fun onMessageChanged(view: View, message : String?){
+        val textViw = view.findViewById<TextView?>(R.id.ks_tv_message)
+        if (textViw != null){
+            textViw.text = message ?: getString(R.string.ks_loading)
+        }
     }
 
     protected open fun provideContentLayout(): Int {
@@ -30,6 +47,10 @@ open class KsLoadingDialog : KsBaseFullScreenDialogFragment() {
             it.height = ViewGroup.LayoutParams.MATCH_PARENT
             it.gravity= Gravity.CENTER
         }
+    }
+
+    fun setMessage(message: String?){
+        messageLiveData.postValue(message)
     }
 
     override fun show(manager: FragmentManager, tag: String?) {

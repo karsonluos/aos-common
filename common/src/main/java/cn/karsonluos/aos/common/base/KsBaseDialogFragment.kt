@@ -12,6 +12,7 @@ open class KsBaseDialogFragment : KsBaseFullScreenDialogFragment() {
             if (tasks.isEmpty()) {
                 mKsLoadingDialog.dismissAllowingStateLoss()
             } else {
+                mKsLoadingDialog.setMessage(tasks.lastOrNull()?.message)
                 mKsLoadingDialog.show(childFragmentManager, "LoadingDialog")
             }
         }

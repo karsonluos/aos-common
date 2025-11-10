@@ -13,6 +13,7 @@ open class KsBaseFragment : Fragment() {
             if (tasks.isEmpty()) {
                 mLoadingDialog.dismissAllowingStateLoss()
             } else {
+                mLoadingDialog.setMessage(tasks.lastOrNull()?.message)
                 mLoadingDialog.show(childFragmentManager, "LoadingDialog")
             }
         }

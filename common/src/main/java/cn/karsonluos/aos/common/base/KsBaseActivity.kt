@@ -24,6 +24,7 @@ open class KsBaseActivity : AppCompatActivity() {
             if (tasks.isEmpty()) {
                 mLoadingDialog.dismissAllowingStateLoss()
             } else {
+                mLoadingDialog.setMessage(tasks.lastOrNull()?.message)
                 mLoadingDialog.show(supportFragmentManager, "LoadingDialog")
             }
         }
