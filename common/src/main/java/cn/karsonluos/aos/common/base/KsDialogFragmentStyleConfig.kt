@@ -14,8 +14,14 @@ data class KsDialogFragmentStyleConfig(
     var width: Int = ViewGroup.LayoutParams.MATCH_PARENT,
     var height: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     var gravity : Int = Gravity.BOTTOM,
-    var animation : Int? = null
+    var animation : Int? = null,
+    var fitNavigationBar : Boolean? = null,
+    var lightStatusBar : Boolean? = null,
+    var lightNavigationBar : Boolean? = null
 ){
+    fun fixedFitNavigationBar() : Boolean{
+        return fitNavigationBar ?: (gravity == Gravity.BOTTOM)
+    }
     fun fixedAnimation() : Int{
         return animation ?: if (gravity and Gravity.BOTTOM == Gravity.BOTTOM){
             R.style.Ks_BottomDialogSlideAnimation

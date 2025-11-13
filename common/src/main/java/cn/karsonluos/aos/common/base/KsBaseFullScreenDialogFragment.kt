@@ -1,9 +1,12 @@
 package cn.karsonluos.aos.common.base
 
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 
 open class KsBaseFullScreenDialogFragment : DialogFragment() {
@@ -16,6 +19,20 @@ open class KsBaseFullScreenDialogFragment : DialogFragment() {
 
     protected open fun provideStyleConfig(defaultStyle : KsDialogFragmentStyleConfig) : KsDialogFragmentStyleConfig {
         return defaultStyle
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (mDialogFragmentStyleConfig.fixedFitNavigationBar()){
+            val originalPaddingBottom = view.paddingBottom
+            ViewCompat.setOnApplyWindowInsetsListener(view) { v, windowInsets ->
+                val navigationBarHeight = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+                view.apply {
+                    setPadding(paddingLeft, paddingTop, paddingRight, originalPaddingBottom + navigationBarHeight)
+                }
+                windowInsets
+            }
+        }
     }
 
     override fun onStart() {
@@ -37,6 +54,14 @@ open class KsBaseFullScreenDialogFragment : DialogFragment() {
         window.setGravity(mDialogFragmentStyleConfig.gravity)
         window.setWindowAnimations(mDialogFragmentStyleConfig.fixedAnimation())
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val controller = WindowCompat.getInsetsController(window, window.decorView)
+        mDialogFragmentStyleConfig.lightStatusBar?.let {
+            controller.isAppearanceLightStatusBars = it
+        }
+        mDialogFragmentStyleConfig.lightNavigationBar?.let {
+            controller.isAppearanceLightNavigationBars = it
+        }
     }
 }
 

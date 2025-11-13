@@ -1,13 +1,17 @@
 package cn.karsonluos.aos.common.base
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 open class KsBaseFullScreenBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -19,6 +23,28 @@ open class KsBaseFullScreenBottomSheetDialogFragment : BottomSheetDialogFragment
         ))
         setStyle(mDialogFragmentStyleConfig.style, mDialogFragmentStyleConfig.theme)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (mDialogFragmentStyleConfig.fixedFitNavigationBar()){
+            val originalPaddingBottom = view.paddingBottom
+            ViewCompat.setOnApplyWindowInsetsListener(view) { v, windowInsets ->
+                val navigationBarHeight = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+                view.apply {
+                    setPadding(paddingLeft, paddingTop, paddingRight, originalPaddingBottom + navigationBarHeight)
+                }
+                windowInsets
+            }
+        }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        object : BottomSheetDialog(requireContext(), theme) {
+            override fun onAttachedToWindow() {
+                super.onAttachedToWindow()
+                findViewById<View>(com.google.android.material.R.id.container)?.fitsSystemWindows = false
+            }
+        }
 
     protected open fun provideStyleConfig(defaultStyle : KsDialogFragmentStyleConfig) : KsDialogFragmentStyleConfig {
         return defaultStyle
@@ -47,6 +73,14 @@ open class KsBaseFullScreenBottomSheetDialogFragment : BottomSheetDialogFragment
         window.setGravity(mDialogFragmentStyleConfig.gravity)
         window.setWindowAnimations(mDialogFragmentStyleConfig.fixedAnimation())
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val controller = WindowCompat.getInsetsController(window, window.decorView)
+        mDialogFragmentStyleConfig.lightStatusBar?.let {
+            controller.isAppearanceLightStatusBars = it
+        }
+        mDialogFragmentStyleConfig.lightNavigationBar?.let {
+            controller.isAppearanceLightNavigationBars = it
+        }
 
         val fixedHeight = fixedHeight()
         if (fixedHeight != null){
